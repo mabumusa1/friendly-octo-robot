@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Install;
+use App\Models\DataCenter;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +17,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $dataCenter = DataCenter::first();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $unverified = User::factory()->unverified()->create([
+            'email' => 'unverified@example.com'
+        ]);
+
+        $firstTimeUser = User::factory()->create([
+            'email' => 'firstTime@example.com'
+        ]);
+
+        $onboardedUser = User::factory()->create([
+            'email' => 'test@example.com'
+        ]);
+
+        $lab = Install::factory()->lab()->create([
+            'user_id' => $onboardedUser->id,
+            'data_center_id' => $dataCenter->id,
+        ]);
+
+        $demo = Install::factory()->demo()->create([
+            'user_id' => $onboardedUser->id,
+            'data_center_id' => $dataCenter->id
+        ]);
+
+        $dev = Install::factory()->dev()->create([
+            'user_id' => $onboardedUser->id,
+            'data_center_id' => $dataCenter->id
+        ]);
+
+        $prod = Install::factory()->prod()->create([
+            'user_id' => $onboardedUser->id,
+            'data_center_id' => $dataCenter->id
+        ]);
+
     }
 }
