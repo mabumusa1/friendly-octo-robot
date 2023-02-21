@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\LabResource\Pages;
 
 use App\Filament\Resources\LabResource;
+use Filament\Pages\Actions\DeleteAction;
 use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use App\Models\DataCenter;
@@ -22,7 +23,9 @@ class ListLabs extends ListRecords
                     $data['user_id'] = auth()->id();
                     $data['type'] = 'lab';
                     return $data;
-            })->disableCreateAnother()
+            })
+            ->disableCreateAnother()
+            ->successNotificationTitle('Lab is being created, we will notify you when it is ready.'),
         ];
     }
     protected function isTablePaginationEnabled(): bool

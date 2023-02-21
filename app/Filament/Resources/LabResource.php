@@ -13,19 +13,38 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Pages\Actions\CreateAction;
+use Filament\Forms\Components\TextInput;
+use Carbon\Carbon;
 
 
 class LabResource extends Resource
 {
     protected static ?string $model = Lab::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $modelLabel = 'Lab';
+
+    protected static ?string $pluralModelLabel = 'Labs';
+
+    protected static ?string $navigationLabel = 'Labs';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationIcon = 'heroicon-o-beaker';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
+
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')->required(),
+                TextInput::make('name')
+                ->label(__('Lab Name'))
+                ->placeholder(__('Lab Name'))
+                ->helperText(__('Lab names are used for your reference.'))
+                ->required()
+                ->minLength(2)
+                ->maxLength(255)
             ]);
     }
 
@@ -40,9 +59,7 @@ class LabResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-
             ])
             ->bulkActions([
             ]);
@@ -63,5 +80,6 @@ class LabResource extends Resource
             'view' => Pages\ViewLab::route('/{record}'),
         ];
     }
+
 
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('data_center_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->enum('type', ['lab', 'demo', 'dev', 'prod']);
             $table->json('properties')->nullable();
             $table->softDeletes();
