@@ -5,11 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
+use App\Traits\InstallProperties;
 
 
 class Install extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InstallProperties;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'properties' => AsArrayObject::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -30,11 +41,20 @@ class Install extends Model
      * @var string
      */
     protected $table = 'installs';
+
     /**
      * Get the user that owns the install.
      */
     public function user()
     {
         return $this->belongsTo(App\Models\User::class);
+    }
+
+    /**
+     * Get the data center that owns the install.
+     */
+    public function dataCenter()
+    {
+        return $this->belongsTo(App\Models\DataCenter::class);
     }
 }
