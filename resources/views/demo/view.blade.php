@@ -1,5 +1,5 @@
 @extends('install.base')
 @section('sidebar')
-    @include('lab._sidebar')
+    @include('demo._sidebar')
 @endsection
 

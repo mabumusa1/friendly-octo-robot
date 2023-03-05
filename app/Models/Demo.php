@@ -1,20 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Builder;
 
 class Demo extends Install
 {
-    public function boot()
+    protected static function booted(): void
     {
-        parent::boot();
         static::addGlobalScope('demo', function (Builder $builder) {
             $builder->where('type', 'demo');
         });
-        static::creating(function ($demo) {
-            $demo->forceFill([
-                'type' => 'demo',
-            ]);
-        });
-
     }
 }

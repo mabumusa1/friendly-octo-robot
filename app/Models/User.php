@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Lab;
+use App\Models\Demo;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 class User extends Authenticatable implements FilamentUser, HasName
@@ -53,11 +54,26 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->hasOne(Lab::class);
     }
 
+    /**
+     * Get the lab that belongs to this user.
+     */
+    public function demos()
+    {
+        return $this->hasMany(Demo::class);
+    }
+
+
+    /**
+     * Print the user's name.
+     */
     public function getFilamentName(): string
     {
         return "{$this->first_name} {$this->last_name}";
     }
 
+    /**
+     * General rule to determine if a user can access Filament.
+     */
     public function canAccessFilament(): bool
     {
         return $this->hasVerifiedEmail();
