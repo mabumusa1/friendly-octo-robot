@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="350"
+   height="75"
+   viewBox="0 0 92.604165 19.843751"
+   version="1.1"
+   id="svg413"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs410" />
+  <g
+     id="layer1" />
+  <g
+     id="layer2">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:6.87917px;line-height:13.2292px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#4170bd;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="53.664337"
+       y="18.133785"
+       id="text17403"><tspan
+         id="tspan17401"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.87917px;font-family:Varela;-inkscape-font-specification:Varela;text-align:center;text-anchor:middle;stroke-width:0.264583;fill:#4170bd;fill-opacity:1"
+         x="53.664337"
+         y="18.133785">Marketing Automation</tspan></text>
+  </g>
+  <g
+     id="layer4">
+    <g
+       id="g682"
+       transform="matrix(0.08579556,0,0,0.08579556,-2.1720512,-2.9668613)"
+       style="fill:#4170bd;fill-opacity:1">
+      <path
+         d="m 99.265,114 c 8.824,0 16,-7.176 16,-16 0,-8.824 -7.176,-16 -16,-16 -8.824,0 -16,7.176 -16,16 0,8.824 7.175,16 16,16 z m 0,-24 c 4.41,0 8,3.59 8,8 0,4.41 -3.59,8 -8,8 -4.41,0 -8,-3.59 -8,-8 0,-4.41 3.589,-8 8,-8 z"
+         id="path674"
+         style="fill:#4170bd;fill-opacity:1" />
+      <path
+         d="m 117.265,64.529 c 2.501,0 4.529,-2.028 4.529,-4.529 0,-2.502 -2.028,-4.53 -4.529,-4.53 -2.501,0 -4.529,2.028 -4.529,4.53 -0.001,2.501 2.027,4.529 4.529,4.529 z"
+         id="path676"
+         style="fill:#4170bd;fill-opacity:1" />
+      <path
+         d="m 45.265,115.47 c -2.501,0 -4.529,2.028 -4.529,4.53 0,2.501 2.028,4.529 4.529,4.529 2.501,0 4.529,-2.028 4.529,-4.529 0,-2.502 -2.028,-4.53 -4.529,-4.53 z"
+         id="path678"
+         style="fill:#4170bd;fill-opacity:1" />
+      <path
+         d="m 255.265,50 h -52.719 c -26.07,0 -47.281,21.211 -47.281,47.281 V 146 h -48.719 c -26.07,0 -47.281,21.211 -47.281,47.281 V 246 c 0,2.211 1.789,4 4,4 h 52.719 c 26.07,0 47.281,-21.211 47.281,-47.281 V 154 h 48.719 c 26.07,0 47.281,-21.211 47.281,-47.281 V 54 c 0,-2.211 -1.789,-4 -4,-4 z m -100,152.719 c 0,21.66 -17.621,39.281 -39.281,39.281 H 67.265 V 193.281 C 67.265,171.621 84.886,154 106.546,154 h 48.719 z m 96,-96 c 0,21.66 -17.621,39.281 -39.281,39.281 H 163.265 V 97.281 C 163.265,75.621 180.886,58 202.546,58 h 48.719 z"
+         id="path680"
+         style="fill:#4170bd;fill-opacity:1" />
+    </g>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:8.46667px;line-height:13.2292px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#4170bd;fill-opacity:1;stroke:none;stroke-width:0.264583"
+     x="55.113728"
+     y="10.030886"
+     id="text9589"><tspan
+       id="tspan9587"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46667px;font-family:Varela;-inkscape-font-specification:Varela;text-align:center;text-anchor:middle;stroke-width:0.264583;fill:#4170bd;fill-opacity:1"
+       x="55.113728"
+       y="10.030886">Steer Campaign</tspan></text>
+</svg>
