@@ -11,9 +11,12 @@ use App\Models\Lab;
 use App\Models\Demo;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
+use Laravel\Cashier\Billable;
+use function Illuminate\Events\queueable;
+
 class User extends Authenticatable implements FilamentUser, HasName
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -77,5 +80,17 @@ class User extends Authenticatable implements FilamentUser, HasName
     public function canAccessFilament(): bool
     {
         return $this->hasVerifiedEmail();
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::updated(queueable(function (User $customer) {
+            if ($customer->hasStripeId()) {
+                $customer->syncStripeCustomerDetails();
+            }
+        }));
     }
 }

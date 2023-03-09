@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Install>
  */
@@ -18,6 +18,25 @@ class InstallFactory extends Factory
     {
         return [
             'name' => fake()->word(),
+            'properties' => [
+                'id' => Str::lower(Str::random(15)),
+                'mautic' => [
+                    'admin' => [
+                        'email' => fake()->email(),
+                        'password' => fake()->password(),
+                        'first_name' => fake()->firstName(),
+                        'last_name' => fake()->lastName(),
+                    ],
+                    'server' => [
+                        'cpu' => 1,
+                        'memory' => 1, //GB
+                        'disk' => 30, //GB
+                        'limits' => [
+                            //TODO: Add limits to the pod, define capaiblites
+                        ]
+                    ],
+                ]
+            ],
         ];
     }
 
