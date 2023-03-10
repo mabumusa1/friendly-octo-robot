@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Models\Plan;
 
 class BillingController extends Controller
 {
@@ -27,8 +28,12 @@ class BillingController extends Controller
      *
      * @return  \Illuminate\Http\RedirectResponse | \Illuminate\View\View
      */
-    public function checkout(Request $request)
+    public function purchase(Plan $id, Request $request)
     {
-        return view('checkout.index', ['title' => 'Purchase']);
+        // Any user that reaches will be have a stripe customer
+        $user = auth()->user();
+        $stripeCustomer = $user->createOrGetStripeCustomer();
+
+        return view('checkout.stripe', ['intent' => $user->createSetupIntent()]);
     }
 }

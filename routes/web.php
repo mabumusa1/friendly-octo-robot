@@ -12,3 +12,5 @@
 */
 
 Route::get('/billing-portal', [App\Http\Controllers\BillingController::class, 'redirectToBillingPortal']);
+
+Route::get('/purchase/{id}', [App\Http\Controllers\BillingController::class, 'purchase'])->name('purchase');
