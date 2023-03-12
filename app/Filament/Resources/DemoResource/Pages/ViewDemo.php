@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\DemoResource\Pages;
 
 use App\Filament\Resources\DemoResource;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewDemo extends ViewRecord

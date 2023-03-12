@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Lab;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class LabPolicy
 {
@@ -29,7 +28,7 @@ class LabPolicy
      */
     public function create(User $user): bool
     {
-        return !$user->lab()->exists();
+        return ! $user->lab()->exists();
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Install>
  */
@@ -33,9 +34,9 @@ class InstallFactory extends Factory
                         'disk' => 30, //GB
                         'limits' => [
                             //TODO: Add limits to the pod, define capaiblites
-                        ]
+                        ],
                     ],
-                ]
+                ],
             ],
         ];
     }
@@ -87,6 +88,4 @@ class InstallFactory extends Factory
             'type' => 'prod',
         ]);
     }
-
-
 }

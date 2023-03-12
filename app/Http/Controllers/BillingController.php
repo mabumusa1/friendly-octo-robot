@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use App\Models\Plan;
 
+use Exception;
+use Illuminate\Http\Request;
+use App\Models\Prod;
+use App\Models\Plan;
 class BillingController extends Controller
 {
     /**
      * Redirect user to the billing portal on stripe.
      *
-     * @param   Request  $request
      *
      * @return  \Illuminate\Http\RedirectResponse
      */
@@ -18,22 +18,51 @@ class BillingController extends Controller
     {
         $user = $request->user();
         $user->createOrGetStripeCustomer();
+
         return $user->redirectToBillingPortal(route('filament.pages.prod'));
     }
 
     /**
      * Purchase a product.
      *
-     * @param   Request  $request
      *
      * @return  \Illuminate\Http\RedirectResponse | \Illuminate\View\View
      */
-    public function purchase(Plan $id, Request $request)
+    public function addPaymentMethod(Request $request)
     {
-        // Any user that reaches will be have a stripe customer
-        $user = auth()->user();
-        $stripeCustomer = $user->createOrGetStripeCustomer();
+        $validatedData = $request->validate([
+            'name' => ['bail', 'required'],
+            'payment_method' => ['bail', 'required'],
+            'planId' => ['bail', 'required', 'exists:plans,id'],
+        ]);
 
-        return view('checkout.stripe', ['intent' => $user->createSetupIntent()]);
+        try {
+            $user = $request->user();
+            if ($user->hasDefaultPaymentMethod()) {
+                throw new \Exception('Default payment method already exists');
+            }
+
+            $plan = Plan::find($validatedData['planId']);
+            $request->user()->addPaymentMethod($validatedData['payment_method']);
+            $user->newSubscription($plan->slug, $plan->stripe_plan)->create($validatedData['payment_method']);
+            $prod = Prod::create([
+                'name' => $validatedData['name'],
+                'data_center_id' => 1,
+                'user_id' => $request->user()->id,
+                'plan_id' => $validatedData['planId'],
+                'properties' => ['planId' => $validatedData['planId'], 'status' => 'creating']
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Payment method added successfully',
+                'redirect' => route('filament.pages.prod', ['id' => $prod->id]),
+            ]);
+        } catch(Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 422);
+        }
     }
 }

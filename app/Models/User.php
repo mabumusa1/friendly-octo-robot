@@ -3,15 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use App\Models\Lab;
-use App\Models\Demo;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasName;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
+
 use function Illuminate\Events\queueable;
 
 class User extends Authenticatable implements FilamentUser, HasName
@@ -48,6 +47,17 @@ class User extends Authenticatable implements FilamentUser, HasName
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::updated(queueable(function (User $customer) {
+            if ($customer->hasStripeId()) {
+                $customer->syncStripeCustomerDetails();
+            }
+        }));
+    }
 
     /**
      * Get the lab that belongs to this user.
@@ -65,7 +75,6 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->hasMany(Demo::class);
     }
 
-
     /**
      * Print the user's name.
      */
@@ -82,15 +91,11 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->hasVerifiedEmail();
     }
 
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::updated(queueable(function (User $customer) {
-            if ($customer->hasStripeId()) {
-                $customer->syncStripeCustomerDetails();
-            }
-        }));
-    }
+        /**
+         * Get the customer name that should be synced to Stripe.
+         */
+        public function stripeName(): string|null
+        {
+            return $this->getFilamentName();
+        }
 }

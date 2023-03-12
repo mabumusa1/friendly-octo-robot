@@ -15,6 +15,5 @@ class Dev extends Install
                 'type' => 'dev',
             ]);
         });
-
     }
 }

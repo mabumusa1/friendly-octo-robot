@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/billing-portal', [App\Http\Controllers\BillingController::class, 'redirectToBillingPortal']);
+Route::get('billing-portal', [App\Http\Controllers\BillingController::class, 'redirectToBillingPortal'])->name('billingPortal');
 
-Route::get('/purchase/{id}', [App\Http\Controllers\BillingController::class, 'purchase'])->name('purchase');
+Route::post('addPaymentMethod', [App\Http\Controllers\BillingController::class, 'addPaymentMethod'])->name('addPaymentMethod');

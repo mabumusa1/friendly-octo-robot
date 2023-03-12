@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\InstallCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-
 
 class InstallCreatedListener implements ShouldQueue
 {

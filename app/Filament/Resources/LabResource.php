@@ -3,19 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LabResource\Pages;
-use App\Filament\Resources\LabResource\RelationManagers;
 use App\Models\Lab;
-use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Pages\Actions\CreateAction;
-use Filament\Forms\Components\TextInput;
-use Carbon\Carbon;
-
 
 class LabResource extends Resource
 {
@@ -35,7 +28,6 @@ class LabResource extends Resource
 
     public static function form(Form $form): Form
     {
-
         return $form
             ->schema([
                 TextInput::make('name')
@@ -44,7 +36,7 @@ class LabResource extends Resource
                 ->helperText(__('Lab names are used for your reference.'))
                 ->required()
                 ->minLength(2)
-                ->maxLength(255)
+                ->maxLength(255),
             ]);
     }
 
@@ -74,12 +66,9 @@ class LabResource extends Resource
 
     public static function getPages(): array
     {
-
         return [
             'index' => Pages\ListLabs::route('/'),
             'view' => Pages\ViewLab::route('/{record}'),
         ];
     }
-
-
 }

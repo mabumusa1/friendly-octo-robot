@@ -2,15 +2,13 @@
 
 namespace App\Filament\Pages;
 
-use JeffGreco13\FilamentBreezy\Pages\MyProfile as BaseProfile;
-use Filament\Forms;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use JeffGreco13\FilamentBreezy\Pages\MyProfile as BaseProfile;
 
 class MyProfile extends BaseProfile
 {
-
-   protected function getUpdateProfileFormSchema(): array
+    protected function getUpdateProfileFormSchema(): array
     {
         return [
             Grid::make()
@@ -23,7 +21,6 @@ class MyProfile extends BaseProfile
                     ->label(__('app.last_name'))
                     ->required(),
             ]),
-
 
             TextInput::make($this->loginColumn)
                 ->required()

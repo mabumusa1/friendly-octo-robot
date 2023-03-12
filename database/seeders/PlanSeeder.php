@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
-
 
 class PlanSeeder extends Seeder
 {
@@ -16,9 +14,9 @@ class PlanSeeder extends Seeder
     {
         $plans = [];
 
-        if ( App::environment('production') ) {
+        if (App::environment('production')) {
             //TODO: Add Production plans
-        }else{
+        } else {
             $plans = [
                 [
                     'contacts' => 2500,
@@ -76,13 +74,12 @@ class PlanSeeder extends Seeder
                     'stripe_plan' => 'price_1LmE28Qtw9T5bCK1EPwRLTDr',
                     'price' => 4200,
                     'period' => 'yearly',
-                ]
+                ],
             ];
 
             foreach ($plans as $plan) {
                 \App\Models\Plan::create($plan);
             }
         }
-
     }
 }

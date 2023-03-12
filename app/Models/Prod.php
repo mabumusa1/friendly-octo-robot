@@ -4,17 +4,11 @@ namespace App\Models;
 
 class Prod extends Install
 {
-    public function boot()
+
+    protected static function booted(): void
     {
-        parent::boot();
         static::addGlobalScope('prod', function (Builder $builder) {
             $builder->where('type', 'prod');
         });
-        static::creating(function ($prod) {
-            $prod->forceFill([
-                'type' => 'prod',
-            ]);
-        });
-
     }
 }

@@ -3,16 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DemoResource\Pages;
-use App\Filament\Resources\DemoResource\RelationManagers;
 use App\Models\Demo;
-use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\TextInput;
 
 class DemoResource extends Resource
 {
@@ -30,7 +26,6 @@ class DemoResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-
     public static function form(Form $form): Form
     {
         return $form
@@ -41,7 +36,7 @@ class DemoResource extends Resource
                 ->helperText(__('Demo names are used for your reference.'))
                 ->required()
                 ->minLength(2)
-                ->maxLength(255)
+                ->maxLength(255),
             ]);
     }
 
@@ -69,8 +64,6 @@ class DemoResource extends Resource
             //
         ];
     }
-
-
 
     public static function getPages(): array
     {

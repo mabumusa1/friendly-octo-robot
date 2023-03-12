@@ -4,7 +4,7 @@
         'filament-resources-' . str_replace('/', '-', $this->getResource()::getSlug()),
     ])"
 >
-@if(Auth::user()->demos()->exists())
+@if (Auth::user()->demos()->exists())
     {{ $this->table }}
 @else
 <x-filament::card>
