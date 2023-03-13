@@ -29,10 +29,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Filament::serving(function () {
             Filament::registerViteTheme('resources/css/filament.css');
-            Filament::pushMeta([
-                new HtmlString('<script src="https://js.stripe.com/v3/"></script>'),
-            ]);
-
             Filament::registerUserMenuItems([
                 'account' => UserMenuItem::make()->url(MyProfile::getUrl()),
             ]);

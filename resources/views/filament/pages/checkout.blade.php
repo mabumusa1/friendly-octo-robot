@@ -26,16 +26,25 @@
                         </div>
                       </div>
                     <div class="space-y-4">
-                        <label class="block text-sm font-medium mb-1" for="card-nr">{{ __('Account Name') }} <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium mb-1" for="name">{{ __('Account Name') }} <span class="text-red-500">*</span></label>
                         <input required type="text" wire:ignore id="name" class="text-sm text-gray-800 bg-white border rounded leading-5 py-2 px-3 border-gray-200 hover:border-gray-300 focus:border-indigo-300 shadow-sm placeholder-gray-400 focus:ring-0 w-full">
+                        <div class="filament-forms-field-wrapper-helper-text text-sm text-gray-600">
+                            <p>{{ __('Installation name for your reference') }}</p>
+                        </div>
                     </div>
-
+                    @if(! auth()->user()->hasDefaultPaymentMethod())
                     <div class="space-y-4">
                         <label class="block text-sm font-medium mb-1" for="card-nr">{{ __('Card Number') }} <span class="text-red-500">*</span></label>
                         <div wire:ignore id="card-element" class="text-sm text-gray-800 bg-white border rounded leading-5 py-2 px-3 border-gray-200 hover:border-gray-300 focus:border-indigo-300 shadow-sm placeholder-gray-400 focus:ring-0 w-full"></div>
                     </div>
+                    @endif
 
-                    <button wire:ignore id="card-button" data-secret="{{ $intent->client_secret }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <div class="flex items-center mb-4">
+                        <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ __('I agree on subscribing to a plan with :noContacts on :planName term with a cost of :cost', ['cost' => $this->price, 'noContacts' => $this->contacts, 'planName' => $this->period])  }}</label>
+                    </div>
+
+                    <button wire:ignore id="card-button" data-secret="{{ $intent->client_secret }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 opacity-25 cursor-not-allowed" disabled>
                         <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                         {{ __('Place Order') }}
                     </button>
@@ -45,9 +54,11 @@
 </x-filament::page>
 
 @push('scripts')
+@if(! auth()->user()->hasDefaultPaymentMethod())
+<script src="https://js.stripe.com/v3/"></script>
 <script>
-const stripe = Stripe("{{ env('STRIPE_KEY') }}");
 const cardButton = document.getElementById("card-button");
+const stripe = Stripe("{{ env('STRIPE_KEY') }}");
 const clientSecret = cardButton.dataset.secret;
 const elements = stripe.elements();
 const cardElement = elements.create("card", {
@@ -66,7 +77,7 @@ cardElement.mount("#card-element");
 cardButton.addEventListener("click", async function(e) {
     e.preventDefault();
 
-    function displayError(message, details) {
+    function displayError(message, details = '') {
         const stripeErrorDiv = document.getElementById("stripe-error-div");
         const stripeErrorText = document.getElementById("stripe-error-text");
         const stripeErrorDetails = document.getElementById("stripe-error-details");
@@ -125,4 +136,54 @@ cardButton.addEventListener("click", async function(e) {
 
 });
 </script>
+@else
+<script>
+const cardButton = document.getElementById("card-button");
+cardButton.addEventListener("click", async function(e) {
+    e.preventDefault();
+
+    function displayError(message, details = '') {
+        const stripeErrorDiv = document.getElementById("stripe-error-div");
+        const stripeErrorText = document.getElementById("stripe-error-text");
+        const stripeErrorDetails = document.getElementById("stripe-error-details");
+        stripeErrorDiv.classList.remove("hidden");
+        stripeErrorText.innerHTML = message;
+        stripeErrorDetails.innerHTML = details;
+
+    }
+
+    const accoutName = document.getElementById("name").value
+    if(accoutName == ""){
+        displayError("{{ __('Account name is required') }}");
+        return;
+    }
+
+    fetch("{{ route('addSubscription') }}", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
+            },
+            method: "POST",
+            body: JSON.stringify({
+                name: accoutName,
+                planId: "{{ $this->planId }}"
+            })
+        }).then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    window.location.href = data.redirect;
+                });
+            } else {
+                response.json().then(data => {
+                    displayError("{{ __('An error happened while processing your payment, please contact support') }}" , data.message);
+                });
+            }
+        })
+
+})
+</script>
+@endif
+
 @endpush
+
